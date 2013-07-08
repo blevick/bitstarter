@@ -37,20 +37,6 @@ var assertFileExists = function(infile) {
     return instr;
 };
 
-var assertURLExists = function(url) {
-    var urlstr = url.toString();
-    var htmlFile;
-    rest.get(urlstr).on('complete', function(result, response) {
-	if (result instanceof Error) {
-	    console.log("%s is not a valid URL.  Exiting.", urlstr);
-	    process.exit(1);
-	} else {
-	    htmlFile = result;
-	}
-    });
-    return htmlFile;
-};
-
 var cheerioHtmlFile = function(htmlfile) {
     return cheerio.load(fs.readFileSync(htmlfile));
 };
@@ -65,7 +51,7 @@ var checkHtmlFile = function(url, htmlfile, checksfile) {
     if (url) {urlstr = url.toString()};
     rest.get(urlstr).on('complete', function(result, response) {
 	if (result instanceof Error) {
-	    console.log("No valid URL.  Using file instead.");
+	   // console.log("No valid URL.  Using file instead.");
 	    $ = cheerioHtmlFile(htmlfile);
 	} else {
 	    $ = cheerio.load(result);
